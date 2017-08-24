@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- lts/*
+branches:
+  only:
+  - master
+before_script:
+- npm install -g firebase-tools
+script:
+- npm run build
+after_success:
+- firebase deploy --token=${FIREBASE_API_TOKEN}
+cache:
+  directories:
+  - node_modules
+env:
+  global:
+    secure: CuMuR/F+frMrdVfStYJZrvMgaFfQ/DeAKv648ynbOQ8PNphfLB3R/toc6g+TMuJxn9eO2GEnb5vgGOK4hdS+kc9Rz0eN4P7WKPno+wOOrbow4JJGV4UiUssp5Cf/XEuR1U+AbmZv+3auU/G+Qkk+MorGYklH9pMdbdtMKwG4/tXGWa1MVaxu/15SsmdUOOB2ZgWd/rs5JLxFtTbYZrp6TSWM+gHu6HmZWxx2Gl3aVjA9D/2w7uNHVD96a3hFv/0pjE8PadCrzi3DH6Dsit2o0j1lW7XIM0tqVjXp44RGQgxZWLc8ynCerXGZNvaExwhrk1hg7eCS1lyNG1R1CUnzIMoK2LohqvLaJu7HcNI1+ZSWJ40wU60ZN0hmqGpunhaRk4eYtgAgh2oNm4/NXaj+aVu1jGBkqUGeYGlHA+SXE96wNcn1dU+9ysTIS314DDlbQHy6DAx/WQMBm5JoijHwZw0qQCW+lpsRlpoJ+xbv9nPowvLRQSBGCdagudNNJ7mtX/cfaXBnRXtnqop5nHvw/pOD6E44ZBz0xQ36uNCDCcDxsHwyLBmW7DOYRSq85f6qPJQ/Q1fw5W1fkvpmZ7CioBtlsLutT+h6WsXAyFKM1N9NV4zEA66RjDN56oRh4/o/SJgslde2nGgVQkxsduD+E5rFl7PC3jC45V4KHHNpdlI=
