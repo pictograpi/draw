@@ -7,9 +7,13 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="container is-fluid">
-        <div>PictograpiDraw is coming soon...</div>
-      </div>
+      <section className="hero is-large is-primary">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <h1 className="title">Create a new document</h1>
+          </div>
+        </div>
+      </section>
     );
   }
 }
