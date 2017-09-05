@@ -1,0 +1,19 @@
+.pd-home {
+  &--editor {
+    width: 100%;
+  }
+
+  &--editor-wrapper {
+    &__hidden {
+      display: none;
+    }
+
+    > .canvas-container {
+      margin: 0 auto;
+      background-color: $white;
+    }
+
+    margin: 0 !important;
+    background-color: $light;
+  }
+}
