@@ -1,0 +1,17 @@
+.pd-menu {
+  &--color-popover {
+    position: absolute;
+    z-index: 20;
+    top: 2.35rem;
+    left: 0.6rem;
+  }
+
+  &--color-cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+}

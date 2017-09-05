@@ -9,13 +9,18 @@ import {
   addTriangle
 } from "../../services/Editor";
 import Store from "../../stores/Store";
+import { ChromePicker } from "react-color";
 
 export default class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditing: false,
-      filename: ""
+      isBorderColorPickerVisible: false,
+      isFillColorPickerVisible: false,
+      filename: "",
+      fillColor: "#4A90E2",
+      borderColor: "#50E3C2"
     };
   }
 
@@ -25,7 +30,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onNewFile(event) {
+  handleNewFileClick(event) {
     event.preventDefault();
     create();
   }
@@ -36,7 +41,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onAddRect(event) {
+  handleAddRectClick(event) {
     event.preventDefault();
     this.disableDrawingMode();
     addRect();
@@ -48,7 +53,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onAddCircle(event) {
+  handleAddCircleClick(event) {
     event.preventDefault();
     this.disableDrawingMode();
     addCircle();
@@ -60,7 +65,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onAddLine(event) {
+  handleAddLineClick(event) {
     event.preventDefault();
     this.disableDrawingMode();
     addLine();
@@ -72,7 +77,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onAddTriangle(event) {
+  handleAddTriangleClick(event) {
     event.preventDefault();
     this.disableDrawingMode();
     addTriangle();
@@ -84,7 +89,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onDrawingMode(event) {
+  handleDrawingModeClick(event) {
     event.preventDefault();
     setDrawingMode(true);
   }
@@ -95,7 +100,7 @@ export default class Menu extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  onAddText(event) {
+  handleAddTextClick(event) {
     event.preventDefault();
     addText();
   }
@@ -107,6 +112,39 @@ export default class Menu extends Component {
    */
   disableDrawingMode() {
     setDrawingMode(false);
+  }
+
+  handleFillColorClick() {
+    this.setState({
+      isBorderColorPickerVisible: false,
+      isFillColorPickerVisible: !this.state.isFillColorPickerVisible
+    });
+  }
+
+  handleBorderColorClick() {
+    this.setState({
+      isFillColorPickerVisible: false,
+      isBorderColorPickerVisible: !this.state.isBorderColorPickerVisible
+    });
+  }
+
+  handleChangeFillColor(color) {
+    this.setState({
+      fillColor: color.hex
+    });
+  }
+
+  handleChangeBorderColor(color) {
+    this.setState({
+      borderColor: color.hex
+    });
+  }
+
+  handleCoverClick() {
+    this.setState({
+      isFillColorPickerVisible: false,
+      isBorderColorPickerVisible: false
+    });
   }
 
   componentWillMount() {
@@ -122,98 +160,158 @@ export default class Menu extends Component {
 
   render() {
     return (
-      <nav className="navbar has-shadow">
-        <div className="container is-fluid">
-          <div className="navbar-brand">
-            <a className="navbar-item" onClick={event => this.onNewFile(event)}>
-              <span className="icon is-small">
-                <i className="fa fa-file-o" />
-              </span>
-            </a>
-            {this.state.isEditing &&
-              <a className="navbar-item">
-                <span className="icon is-small">
-                  <i className="fa fa-save" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a className="navbar-item">
-                <span className="icon is-small">
-                  <i className="fa fa-share-alt" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a className="navbar-item">
-                <span className="icon is-small">
-                  <i className="fa fa-print" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onAddRect(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-square-o" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onAddCircle(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-circle-thin" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onAddTriangle(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-play fa-rotate-270" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a className="navbar-item">
-                <span className="icon is-small">
-                  <i className="fa fa-image" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onAddLine(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-long-arrow-right" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onDrawingMode(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-pencil" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a
-                className="navbar-item"
-                onClick={event => this.onAddText(event)}
-              >
-                <span className="icon is-small">
-                  <i className="fa fa-font" />
-                </span>
-              </a>}
-            {this.state.isEditing &&
-              <a className="navbar-item">
-                <span>
-                  {" "}{this.state.filename}{" "}
-                </span>
-              </a>}
+      <nav className="container is-fluid level">
+        {(this.state.isBorderColorPickerVisible ||
+          this.state.isFillColorPickerVisible) &&
+          <div
+            className="pd-menu--color-cover"
+            onClick={() => this.handleCoverClick()}
+          />}
+        <div className="level-left">
+          <div className="level-item">
+            <div className="field has-addons">
+              <p className="control">
+                <a
+                  className="button"
+                  onClick={event => this.handleNewFileClick(event)}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-file-o" />
+                  </span>
+                  <span>New</span>
+                </a>
+              </p>
+              <p className="control">
+                <a className="button" disabled={!this.state.isEditing}>
+                  <span className="icon is-small">
+                    <i className="fa fa-save" />
+                  </span>
+                  <span>Save</span>
+                </a>
+              </p>
+              <p className="control">
+                <a className="button" disabled={!this.state.isEditing}>
+                  <span className="icon is-small">
+                    <i className="fa fa-share-alt" />
+                  </span>
+                  <span>Share</span>
+                </a>
+              </p>
+              <p className="control">
+                <a className="button" disabled={!this.state.isEditing}>
+                  <span className="icon is-small">
+                    <i className="fa fa-print" />
+                  </span>
+                  <span>Print</span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <div className="level-item">
+            <div className="field has-addons">
+              <p className="control">
+                <a
+                  className="button"
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleAddRectClick(event)}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-square-o" />
+                  </span>
+                </a>
+              </p>
+              <p className="control">
+                <a
+                  className="button"
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleAddCircleClick(event)}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-circle-thin" />
+                  </span>
+                </a>
+              </p>
+              <p className="control">
+                <a
+                  className="button"
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleAddTriangleClick(event)}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-play fa-rotate-270" />
+                  </span>
+                </a>
+              </p>
+              <p className="control">
+                <a className="button" disabled={!this.state.isEditing}>
+                  <span className="icon is-small">
+                    <i className="fa fa-long-arrow-right" />
+                  </span>
+                </a>
+              </p>
+              <p className="control">
+                <a className="button" disabled={!this.state.isEditing}>
+                  <span className="icon is-small">
+                    <i className="fa fa-image" />
+                  </span>
+                </a>
+              </p>
+              <p className="control">
+                <a
+                  className="button"
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleAddTextClick(event)}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-font" />
+                  </span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <div className="level-item">
+            <div className="field has-addons">
+              <div className="control">
+                <a
+                  className="button is-white"
+                  style={{ color: this.state.fillColor }}
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleFillColorClick(event)}
+                >
+                  <span className="icon is-medium">
+                    <i className="fa fa-square" />
+                  </span>
+                </a>
+                {this.state.isFillColorPickerVisible &&
+                  <div className="pd-menu--color-popover">
+                    <ChromePicker
+                      color={this.state.fillColor}
+                      onChangeComplete={color =>
+                        this.handleChangeFillColor(color)}
+                    />
+                  </div>}
+              </div>
+              <div className="control">
+                <a
+                  className="button is-white"
+                  style={{ color: this.state.borderColor }}
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleBorderColorClick(event)}
+                >
+                  <span className="icon is-medium">
+                    <i className="fa fa-square-o" />
+                  </span>
+                </a>
+                {this.state.isBorderColorPickerVisible &&
+                  <div className="pd-menu--color-popover">
+                    <ChromePicker
+                      color={this.state.borderColor}
+                      onChangeComplete={color =>
+                        this.handleChangeBorderColor(color)}
+                    />
+                  </div>}
+              </div>
+            </div>
           </div>
         </div>
       </nav>
