@@ -19,7 +19,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="pd-home">
+      <div className="column is-11">
         {!this.state.isEditing &&
           <section className="hero is-large is-primary">
             <div className="hero-body">

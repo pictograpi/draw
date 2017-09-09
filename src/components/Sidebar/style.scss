@@ -1,8 +1,15 @@
-.pd-menu {
+$padding: 0.75rem;
+
+.pd-sidebar {
+  padding-top: $padding !important;
+
+  &--button {
+    margin: 0 $padding / 2;
+  }
+
   &--color-popover {
     position: absolute;
     z-index: 20;
-    top: 2.35rem;
     left: 0.6rem;
   }
 
