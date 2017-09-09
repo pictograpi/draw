@@ -1,0 +1,15 @@
+.pd-properties {
+  padding: 0.35rem 0;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+
+  &--field,
+  &--label {
+    margin: 0 0.35rem !important;
+  }
+
+  &--field {
+    width: 100px;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
+import Properties from "../../components/Properties";
 
 export default class Home extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="column is-11">
+        <Properties />
         {!this.state.isEditing &&
           <section className="hero is-large is-primary">
             <div className="hero-body">
