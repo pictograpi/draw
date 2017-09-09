@@ -9,6 +9,7 @@ import {
   addTriangle
 } from "../../services/Editor";
 import Store from "../../stores/Store";
+import { setBorderColor, setFillColor } from "../../stores/Status";
 import { ChromePicker } from "react-color";
 
 export default class Menu extends Component {
@@ -114,6 +115,11 @@ export default class Menu extends Component {
     setDrawingMode(false);
   }
 
+  /**
+   * Opens fill color picker.
+   *
+   * @memberof Menu
+   */
   handleFillColorClick() {
     this.setState({
       isBorderColorPickerVisible: false,
@@ -121,6 +127,11 @@ export default class Menu extends Component {
     });
   }
 
+  /**
+   * Opens border color picker.
+   *
+   * @memberof Menu
+   */
   handleBorderColorClick() {
     this.setState({
       isFillColorPickerVisible: false,
@@ -128,18 +139,31 @@ export default class Menu extends Component {
     });
   }
 
+  /**
+   * Stores fill color when it is changed.
+   *
+   * @param {string} color New color selected.
+   * @memberof Menu
+   */
   handleChangeFillColor(color) {
-    this.setState({
-      fillColor: color.hex
-    });
+    Store.dispatch(setFillColor(color));
   }
 
+  /**
+   * Stores border color when it is changed.
+   *
+   * @param {string} color New color selected.
+   * @memberof Menu
+   */
   handleChangeBorderColor(color) {
-    this.setState({
-      borderColor: color.hex
-    });
+    Store.dispatch(setBorderColor(color));
   }
 
+  /**
+   * Handles any click outside the pickers to close them.
+   *
+   * @memberof Menu
+   */
   handleCoverClick() {
     this.setState({
       isFillColorPickerVisible: false,
@@ -153,7 +177,11 @@ export default class Menu extends Component {
 
       this.setState({
         isEditing: status.isEditing,
-        filename: status.filename
+        filename: status.filename,
+        fillColor: (status.fillColor || {}).rgb,
+        borderColor: (status.borderColor || {}).rgb,
+        fillColorRGBAString: status.fillColorRGBAString,
+        borderColorRGBAString: status.borderColorRGBAString
       });
     });
   }
@@ -243,7 +271,11 @@ export default class Menu extends Component {
                 </a>
               </p>
               <p className="control">
-                <a className="button" disabled={!this.state.isEditing}>
+                <a
+                  className="button"
+                  disabled={!this.state.isEditing}
+                  onClick={event => this.handleAddLineClick(event)}
+                >
                   <span className="icon is-small">
                     <i className="fa fa-long-arrow-right" />
                   </span>
@@ -274,7 +306,7 @@ export default class Menu extends Component {
               <div className="control">
                 <a
                   className="button is-white"
-                  style={{ color: this.state.fillColor }}
+                  style={{ color: this.state.fillColorRGBAString }}
                   disabled={!this.state.isEditing}
                   onClick={event => this.handleFillColorClick(event)}
                 >
@@ -294,7 +326,7 @@ export default class Menu extends Component {
               <div className="control">
                 <a
                   className="button is-white"
-                  style={{ color: this.state.borderColor }}
+                  style={{ color: this.state.borderColorRGBAString }}
                   disabled={!this.state.isEditing}
                   onClick={event => this.handleBorderColorClick(event)}
                 >

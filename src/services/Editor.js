@@ -2,7 +2,14 @@ import Store from "../stores/Store";
 import { setFilename, setIsEditing } from "../stores/Status";
 
 const canvasId = "editor";
-let canvas;
+let canvas, fillColorRGBAString, borderColorRGBAString;
+
+Store.subscribe(() => {
+  const statusStore = Store.getState().status;
+
+  fillColorRGBAString = statusStore.fillColorRGBAString;
+  borderColorRGBAString = statusStore.borderColorRGBAString;
+});
 
 /**
  * Creates a new editor.
@@ -15,6 +22,10 @@ export function create() {
   canvas = new fabric.Canvas(canvasId, {
     width: 1024,
     height: 768
+  });
+
+  canvas.on("mouse:down", function(options) {
+    console.log(options.e.clientX, options.e.clientY, options.target);
   });
 
   Store.dispatch(setFilename(filename));
@@ -30,7 +41,9 @@ export function addRect() {
   const rect = new fabric.Rect({
     left: 100,
     top: 100,
-    fill: "red",
+    strokeWidth: 2,
+    stroke: borderColorRGBAString,
+    fill: fillColorRGBAString,
     width: 20,
     height: 20
   });
@@ -46,7 +59,9 @@ export function addRect() {
 export function addCircle() {
   const circle = new fabric.Circle({
     radius: 20,
-    fill: "red",
+    fill: fillColorRGBAString,
+    strokeWidth: 2,
+    stroke: borderColorRGBAString,
     left: 100,
     top: 100
   });
@@ -63,7 +78,7 @@ export function addLine() {
   const line = new fabric.Line([50, 100, 200, 200], {
     left: 170,
     top: 150,
-    stroke: "red"
+    stroke: fillColorRGBAString
   });
 
   canvas.add(line);
@@ -77,7 +92,7 @@ export function addLine() {
  */
 export function setDrawingMode(drawingMode) {
   canvas.isDrawingMode = drawingMode;
-  canvas.freeDrawingBrush.color = "red";
+  canvas.freeDrawingBrush.color = fillColorRGBAString;
 }
 
 /**
@@ -89,7 +104,7 @@ export function addText() {
   var text = new fabric.Text("New text", {
     left: 100,
     top: 100,
-    fill: "red"
+    fill: fillColorRGBAString
   });
   canvas.add(text);
 }
@@ -103,7 +118,9 @@ export function addTriangle() {
   const triangle = new fabric.Triangle({
     width: 30,
     height: 30,
-    fill: "red",
+    fill: fillColorRGBAString,
+    strokeWidth: 2,
+    stroke: borderColorRGBAString,
     left: 50,
     top: 50
   });
