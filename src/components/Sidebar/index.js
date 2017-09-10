@@ -3,7 +3,7 @@ import Store from "../../stores/Store";
 import {
   create,
   addRect,
-  addCircle,
+  addEllipse,
   addLine,
   setDrawingMode,
   addText,
@@ -51,10 +51,10 @@ export default class Sidebar extends Component {
    * @param {any} event
    * @memberof Menu
    */
-  handleAddCircleClick(event) {
+  handleaddEllipseClick(event) {
     event.preventDefault();
     this.disableDrawingMode();
-    addCircle();
+    addEllipse();
   }
 
   /**
@@ -242,7 +242,7 @@ export default class Sidebar extends Component {
           <a
             className="pd-sidebar--button button"
             disabled={!this.state.isEditing}
-            onClick={event => this.handleAddCircleClick(event)}
+            onClick={event => this.handleaddEllipseClick(event)}
           >
             <span className="icon">
               <i className="fa fa-circle-thin" />

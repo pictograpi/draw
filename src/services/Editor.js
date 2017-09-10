@@ -2,13 +2,21 @@ import Store from "../stores/Store";
 import { setFilename, setIsEditing } from "../stores/Status";
 
 const canvasId = "editor";
-let canvas, fillColorRGBAString, borderColorRGBAString;
+let canvas,
+  fillColorRGBAString,
+  borderColorRGBAString,
+  width,
+  height,
+  borderSize;
 
 Store.subscribe(() => {
   const statusStore = Store.getState().status;
 
   fillColorRGBAString = statusStore.fillColorRGBAString;
   borderColorRGBAString = statusStore.borderColorRGBAString;
+  width = statusStore.width;
+  height = statusStore.height;
+  borderSize = statusStore.borderSize;
 });
 
 /**
@@ -41,11 +49,11 @@ export function addRect() {
   const rect = new fabric.Rect({
     left: 100,
     top: 100,
-    strokeWidth: 2,
+    strokeWidth: borderSize,
     stroke: borderColorRGBAString,
     fill: fillColorRGBAString,
-    width: 20,
-    height: 20
+    width: width,
+    height: height
   });
 
   canvas.add(rect);
@@ -56,11 +64,12 @@ export function addRect() {
  *
  * @export
  */
-export function addCircle() {
-  const circle = new fabric.Circle({
-    radius: 20,
+export function addEllipse() {
+  const circle = new fabric.Ellipse({
+    rx: width,
+    ry: height,
     fill: fillColorRGBAString,
-    strokeWidth: 2,
+    strokeWidth: borderSize,
     stroke: borderColorRGBAString,
     left: 100,
     top: 100
@@ -75,10 +84,11 @@ export function addCircle() {
  * @export
  */
 export function addLine() {
-  const line = new fabric.Line([50, 100, 200, 200], {
+  const line = new fabric.Line([50, 100, 200, 100], {
     left: 170,
     top: 150,
-    stroke: fillColorRGBAString
+    stroke: fillColorRGBAString,
+    strokeWidth: borderSize
   });
 
   canvas.add(line);
@@ -116,10 +126,10 @@ export function addText() {
  */
 export function addTriangle() {
   const triangle = new fabric.Triangle({
-    width: 30,
-    height: 30,
+    width: width,
+    height: height,
     fill: fillColorRGBAString,
-    strokeWidth: 2,
+    strokeWidth: borderSize,
     stroke: borderColorRGBAString,
     left: 50,
     top: 50
