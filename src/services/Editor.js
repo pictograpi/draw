@@ -171,7 +171,7 @@ export function setDrawingMode(drawingMode) {
  * @export
  */
 export function addText() {
-  var text = new fabric.Text("New text", {
+  var text = new fabric.IText("New text", {
     left: 100,
     top: 100,
     fill: fillColorRGBAString
