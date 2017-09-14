@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
-import { setFormProperties } from "../../services/Editor";
+import { setFormProperties, removeSelectedForms } from "../../services/Editor";
 import { setBorderSize, setWidth, setHeight } from "../../stores/Status";
 
 export default class Properties extends Component {
@@ -54,6 +54,15 @@ export default class Properties extends Component {
       this.state.height,
       this.state.borderSize
     );
+  }
+
+  /**
+   * Removes selected forms.
+   *
+   * @memberof Properties
+   */
+  handleRemoveClick() {
+    removeSelectedForms();
   }
 
   componentWillMount() {
@@ -143,11 +152,18 @@ export default class Properties extends Component {
           </p>
         </div>
         <div
-          className="button is-small is-primary"
+          className="pd-properties--button button is-small is-primary"
           disabled={!this.state.isEditing || !this.state.isFormSelected}
           onClick={event => this.handleResizeClick()}
         >
-          Update form
+          Resize
+        </div>
+        <div
+          className="pd-properties--button button is-small is-danger"
+          disabled={!this.state.isEditing || !this.state.isFormSelected}
+          onClick={event => this.handleRemoveClick()}
+        >
+          <i className="fa fa-trash" />
         </div>
       </div>
     );

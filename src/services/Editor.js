@@ -60,6 +60,17 @@ function updateSelectedForm(options) {
 }
 
 /**
+ * Obtains an array of active forms.
+ *
+ * @returns {Array.<Object>}
+ */
+function getActiveForms() {
+  const activeObject = canvas.getActiveObject();
+
+  return activeObject._objects || [activeObject];
+}
+
+/**
  * Creates a new editor.
  *
  * @export
@@ -180,8 +191,8 @@ export function addTriangle() {
     fill: fillColorRGBAString,
     strokeWidth: borderSize,
     stroke: borderColorRGBAString,
-    left: 50,
-    top: 50
+    left: 100,
+    top: 100
   });
 
   canvas.add(triangle);
@@ -196,8 +207,7 @@ export function addTriangle() {
  * @param {number} borderSize
  */
 export function setFormProperties(width, height, borderSize) {
-  const activeObject = canvas.getActiveObject(),
-    forms = activeObject._objects || [activeObject];
+  const forms = getActiveForms();
 
   forms.forEach(form => {
     if (form.type === "ellipse") {
@@ -219,5 +229,19 @@ export function setFormProperties(width, height, borderSize) {
     }
   });
 
+  canvas.renderAll();
+}
+
+/**
+ * Removes active objects from canvas.
+ *
+ * @export
+ */
+export function removeSelectedForms() {
+  const forms = getActiveForms();
+
+  forms.forEach(form => canvas.remove(form));
+  Store.dispatch(setSelectedForm(undefined));
+  canvas.discardActiveObject();
   canvas.renderAll();
 }
