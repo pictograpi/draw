@@ -31,7 +31,7 @@ Store.subscribe(() => {
  *
  * @param {any} options
  */
-function updateFormProperties(options) {
+function updateProperties(options) {
   const selectedForm = options.target;
 
   if (selectedForm) {
@@ -84,12 +84,12 @@ export function create() {
   });
 
   canvas.on("mouse:down", options => {
-    updateFormProperties(options);
+    updateProperties(options);
     updateSelectedForm(options);
   });
 
   canvas.on("object:scaling", options => {
-    updateFormProperties(options);
+    updateProperties(options);
   });
 
   canvas.on("object:selected", options => {
@@ -202,11 +202,8 @@ export function addTriangle() {
  * Sets new properties in all selected forms.
  *
  * @export
- * @param {number} width
- * @param {number} height
- * @param {number} borderSize
  */
-export function setFormProperties(width, height, borderSize) {
+export function updateForms() {
   const forms = getActiveForms();
 
   forms.forEach(form => {

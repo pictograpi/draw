@@ -1,46 +1,16 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
-import { setFormProperties, removeSelectedForms } from "../../services/Editor";
-import { setBorderSize, setWidth, setHeight } from "../../stores/Status";
+import { updateForms, removeSelectedForms } from "../../services/Editor";
+import Width from "../Width";
+import Height from "../Height";
+import Border from "../Border";
 
 export default class Properties extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 20,
-      height: 20,
-      borderSize: 2
+      isEditing: false
     };
-  }
-
-  /**
-   * Stores new width.
-   *
-   * @param {any} event
-   * @memberof Properties
-   */
-  handleWidthChange(event) {
-    Store.dispatch(setWidth(Number.parseInt(event.target.value)));
-  }
-
-  /**
-   * Stores new height.
-   *
-   * @param {any} event
-   * @memberof Properties
-   */
-  handleHeightChange(event) {
-    Store.dispatch(setHeight(Number.parseInt(event.target.value)));
-  }
-
-  /**
-   * Stores new border size.
-   *
-   * @param {any} event
-   * @memberof Properties
-   */
-  handleBorderSizeChange(event) {
-    Store.dispatch(setBorderSize(Number.parseInt(event.target.value)));
   }
 
   /**
@@ -49,11 +19,7 @@ export default class Properties extends Component {
    * @memberof Properties
    */
   handleResizeClick() {
-    setFormProperties(
-      this.state.width,
-      this.state.height,
-      this.state.borderSize
-    );
+    updateForms();
   }
 
   /**
@@ -72,12 +38,7 @@ export default class Properties extends Component {
 
       this.setState({
         isEditing: statusStore.isEditing,
-        borderSize: statusStore.borderSize,
-        width: statusStore.width,
-        height: statusStore.height,
-        isFormSelected: statusStore.selectedForm !== undefined,
-        isTextForm: selectedForm && selectedForm.type === "i-text",
-        isLineForm: selectedForm && selectedForm.type === "line"
+        isFormSelected: selectedForm !== undefined
       });
     });
   }
@@ -88,87 +49,14 @@ export default class Properties extends Component {
         <label className="pd-properties--label label is-small">
           Properties
         </label>
-        <div className="pd-properties--field field has-addons">
-          <p className="control has-icons-left">
-            <input
-              className="input is-small"
-              type="text"
-              value={this.state.width}
-              onChange={this.handleWidthChange}
-              disabled={
-                !this.state.isEditing ||
-                this.state.isTextForm ||
-                this.state.isLineForm
-              }
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-arrows-v" />
-            </span>
-          </p>
-          <p className="control">
-            <a
-              className="button is-static is-small"
-              disabled={
-                !this.state.isEditing ||
-                this.state.isTextForm ||
-                this.state.isLineForm
-              }
-            >
-              px
-            </a>
-          </p>
+        <div className="pd-properties--field">
+          <Width />
         </div>
-        <div className="pd-properties--field field has-addons">
-          <p className="control has-icons-left">
-            <input
-              className="input is-small"
-              type="text"
-              value={this.state.height}
-              onChange={this.handleHeightChange}
-              disabled={
-                !this.state.isEditing ||
-                this.state.isTextForm ||
-                this.state.isLineForm
-              }
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-arrows-h" />
-            </span>
-          </p>
-          <p className="control">
-            <a
-              className="button is-static is-small"
-              disabled={
-                !this.state.isEditing ||
-                this.state.isTextForm ||
-                this.state.isLineForm
-              }
-            >
-              px
-            </a>
-          </p>
+        <div className="pd-properties--field">
+          <Height />
         </div>
-        <div className="pd-properties--field field has-addons">
-          <p className="control has-icons-left">
-            <input
-              className="input is-small"
-              type="text"
-              value={this.state.borderSize}
-              onChange={this.handleBorderSizeChange}
-              disabled={!this.state.isEditing || this.state.isTextForm}
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-square-o" />
-            </span>
-          </p>
-          <p className="control">
-            <a
-              className="button is-static is-small"
-              disabled={!this.state.isEditing || this.state.isTextForm}
-            >
-              px
-            </a>
-          </p>
+        <div className="pd-properties--field">
+          <Border />
         </div>
         <div
           className="pd-properties--button button is-small is-primary"
@@ -182,7 +70,9 @@ export default class Properties extends Component {
           disabled={!this.state.isEditing || !this.state.isFormSelected}
           onClick={event => this.handleRemoveClick()}
         >
-          <i className="fa fa-trash" />
+          <span className="icon is-small">
+            <i className="fa fa-trash" />
+          </span>
         </div>
       </div>
     );
