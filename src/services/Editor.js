@@ -1,5 +1,12 @@
 import Store from "../stores/Store";
-import { setFilename, setIsEditing } from "../stores/Status";
+import {
+  setFilename,
+  setIsEditing,
+  setBorderSize,
+  setWidth,
+  setHeight,
+  setSelectedForm
+} from "../stores/Status";
 
 const canvasId = "editor";
 let canvas,
@@ -20,6 +27,39 @@ Store.subscribe(() => {
 });
 
 /**
+ * Updates form properties.
+ *
+ * @param {any} options
+ */
+function updateFormProperties(options) {
+  const selectedForm = options.target;
+
+  if (selectedForm) {
+    selectedForm.width &&
+      Store.dispatch(setWidth(selectedForm.width * selectedForm.scaleX));
+    selectedForm.height &&
+      Store.dispatch(setHeight(selectedForm.height * selectedForm.scaleY));
+    selectedForm.strokeWidth &&
+      Store.dispatch(
+        setBorderSize(selectedForm.strokeWidth * selectedForm.scaleX)
+      );
+  }
+}
+
+/**
+ * Updates into store selected form.
+ *
+ * @param {any} options
+ */
+function updateSelectedForm(options) {
+  const selectedForm = options.target;
+
+  selectedForm
+    ? Store.dispatch(setSelectedForm(selectedForm))
+    : Store.dispatch(setSelectedForm(undefined));
+}
+
+/**
  * Creates a new editor.
  *
  * @export
@@ -32,8 +72,17 @@ export function create() {
     height: 768
   });
 
-  canvas.on("mouse:down", function(options) {
-    console.log(options.e.clientX, options.e.clientY, options.target);
+  canvas.on("mouse:down", options => {
+    updateFormProperties(options);
+    updateSelectedForm(options);
+  });
+
+  canvas.on("object:scaling", options => {
+    updateFormProperties(options);
+  });
+
+  canvas.on("object:selected", options => {
+    updateSelectedForm(options);
   });
 
   Store.dispatch(setFilename(filename));
@@ -66,8 +115,8 @@ export function addRect() {
  */
 export function addEllipse() {
   const circle = new fabric.Ellipse({
-    rx: width,
-    ry: height,
+    rx: Math.round(width / 2),
+    ry: Math.round(height / 2),
     fill: fillColorRGBAString,
     strokeWidth: borderSize,
     stroke: borderColorRGBAString,
@@ -136,4 +185,39 @@ export function addTriangle() {
   });
 
   canvas.add(triangle);
+}
+
+/**
+ * Sets new properties in all selected forms.
+ *
+ * @export
+ * @param {number} width
+ * @param {number} height
+ * @param {number} borderSize
+ */
+export function setFormProperties(width, height, borderSize) {
+  const activeObject = canvas.getActiveObject(),
+    forms = activeObject._objects || [activeObject];
+
+  forms.forEach(form => {
+    if (form.type === "ellipse") {
+      form.set({
+        rx: Math.round(width / 2),
+        ry: Math.round(height / 2),
+        strokeWidth: borderSize,
+        scaleX: 1,
+        scaleY: 1
+      });
+    } else {
+      form.set({
+        width: width,
+        height: height,
+        strokeWidth: borderSize,
+        scaleX: 1,
+        scaleY: 1
+      });
+    }
+  });
+
+  canvas.renderAll();
 }

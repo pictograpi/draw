@@ -5,7 +5,8 @@ const ACTIONS = {
   SET_BORDER_COLOR: "STATUS_SET_BORDER_COLOR",
   SET_WIDTH: "STATUS_SET_WIDTH",
   SET_HEIGHT: "STATUS_SET_HEIGHT",
-  SET_BORDER_SIZE: "STATUS_SET_BORDER_SIZE"
+  SET_BORDER_SIZE: "STATUS_SET_BORDER_SIZE",
+  SET_SELECTED_FORM: "STATUS_SET_SELECTED_FORM"
 };
 
 const StatusReducer = (
@@ -72,6 +73,13 @@ const StatusReducer = (
       state = {
         ...state,
         borderSize: action.payload
+      };
+      break;
+    }
+    case ACTIONS.SET_SELECTED_FORM: {
+      state = {
+        ...state,
+        selectedForm: action.payload
       };
       break;
     }
@@ -177,5 +185,12 @@ export function setBorderSize(size) {
   return {
     type: ACTIONS.SET_BORDER_SIZE,
     payload: size
+  };
+}
+
+export function setSelectedForm(form) {
+  return {
+    type: ACTIONS.SET_SELECTED_FORM,
+    payload: form
   };
 }
