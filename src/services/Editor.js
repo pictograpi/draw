@@ -218,6 +218,10 @@ export function setFormProperties(width, height, borderSize) {
         scaleX: 1,
         scaleY: 1
       });
+    } else if (form.type === "line") {
+      form.set({
+        strokeWidth: borderSize
+      });
     } else {
       form.set({
         width: width,

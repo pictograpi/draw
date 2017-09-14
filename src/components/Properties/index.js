@@ -68,13 +68,16 @@ export default class Properties extends Component {
   componentWillMount() {
     Store.subscribe(() => {
       const statusStore = Store.getState().status;
+      const selectedForm = statusStore.selectedForm || undefined;
 
       this.setState({
         isEditing: statusStore.isEditing,
         borderSize: statusStore.borderSize,
         width: statusStore.width,
         height: statusStore.height,
-        isFormSelected: statusStore.selectedForm !== undefined
+        isFormSelected: statusStore.selectedForm !== undefined,
+        isTextForm: selectedForm && selectedForm.type === "i-text",
+        isLineForm: selectedForm && selectedForm.type === "line"
       });
     });
   }
@@ -92,7 +95,11 @@ export default class Properties extends Component {
               type="text"
               value={this.state.width}
               onChange={this.handleWidthChange}
-              disabled={!this.state.isEditing}
+              disabled={
+                !this.state.isEditing ||
+                this.state.isTextForm ||
+                this.state.isLineForm
+              }
             />
             <span className="icon is-small is-left">
               <i className="fa fa-arrows-v" />
@@ -101,7 +108,11 @@ export default class Properties extends Component {
           <p className="control">
             <a
               className="button is-static is-small"
-              disabled={!this.state.isEditing}
+              disabled={
+                !this.state.isEditing ||
+                this.state.isTextForm ||
+                this.state.isLineForm
+              }
             >
               px
             </a>
@@ -114,7 +125,11 @@ export default class Properties extends Component {
               type="text"
               value={this.state.height}
               onChange={this.handleHeightChange}
-              disabled={!this.state.isEditing}
+              disabled={
+                !this.state.isEditing ||
+                this.state.isTextForm ||
+                this.state.isLineForm
+              }
             />
             <span className="icon is-small is-left">
               <i className="fa fa-arrows-h" />
@@ -123,7 +138,11 @@ export default class Properties extends Component {
           <p className="control">
             <a
               className="button is-static is-small"
-              disabled={!this.state.isEditing}
+              disabled={
+                !this.state.isEditing ||
+                this.state.isTextForm ||
+                this.state.isLineForm
+              }
             >
               px
             </a>
@@ -136,7 +155,7 @@ export default class Properties extends Component {
               type="text"
               value={this.state.borderSize}
               onChange={this.handleBorderSizeChange}
-              disabled={!this.state.isEditing}
+              disabled={!this.state.isEditing || this.state.isTextForm}
             />
             <span className="icon is-small is-left">
               <i className="fa fa-square-o" />
@@ -145,7 +164,7 @@ export default class Properties extends Component {
           <p className="control">
             <a
               className="button is-static is-small"
-              disabled={!this.state.isEditing}
+              disabled={!this.state.isEditing || this.state.isTextForm}
             >
               px
             </a>
@@ -156,7 +175,7 @@ export default class Properties extends Component {
           disabled={!this.state.isEditing || !this.state.isFormSelected}
           onClick={event => this.handleResizeClick()}
         >
-          Resize
+          Update
         </div>
         <div
           className="pd-properties--button button is-small is-danger"
