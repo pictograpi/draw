@@ -246,3 +246,34 @@ export function removeSelectedForms() {
   canvas.discardActiveObject();
   canvas.renderAll();
 }
+
+/**
+ * Clones selected forms.
+ *
+ * @export
+ */
+export function cloneSelectedForm() {
+  var activeObject = canvas.getActiveObject();
+
+  activeObject.clone(function(cloned) {
+    canvas.discardActiveObject();
+    cloned.set({
+      top: cloned.top + 20,
+      left: cloned.left + 20,
+      evented: true
+    });
+
+    if (cloned.type === "activeSelection") {
+      // active selection needs a reference to the canvas.
+      cloned.canvas = canvas;
+      cloned.forEachObject(function(obj) {
+        canvas.add(obj);
+      });
+      cloned.setCoords();
+    } else {
+      canvas.add(cloned);
+    }
+    canvas.setActiveObject(cloned);
+    canvas.requestRenderAll();
+  });
+}

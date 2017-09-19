@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
-import { updateForms, removeSelectedForms } from "../../services/Editor";
+import {
+  updateForms,
+  removeSelectedForms,
+  cloneSelectedForm
+} from "../../services/Editor";
 import Width from "../Width";
 import Height from "../Height";
 import Border from "../Border";
@@ -29,6 +33,15 @@ export default class Properties extends Component {
    */
   handleRemoveClick() {
     removeSelectedForms();
+  }
+
+  /**
+   * Clones selected forms.
+   *
+   * @memberof Properties
+   */
+  handleCloneClick() {
+    cloneSelectedForm();
   }
 
   componentWillMount() {
@@ -64,6 +77,15 @@ export default class Properties extends Component {
           onClick={event => this.handleResizeClick()}
         >
           Update
+        </div>
+        <div
+          className="pd-properties--button button is-small"
+          disabled={!this.state.isEditing || !this.state.isFormSelected}
+          onClick={event => this.handleCloneClick()}
+        >
+          <span className="icon is-small">
+            <i className="fa fa-clone" />
+          </span>
         </div>
         <div
           className="pd-properties--button button is-small is-danger"
