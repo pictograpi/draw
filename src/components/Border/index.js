@@ -26,7 +26,6 @@ export default class Border extends Component {
       const statusStore = Store.getState().status;
       const selectedForm = statusStore.selectedForm || undefined;
       const isTextForm = selectedForm && selectedForm.type === "i-text";
-      const isLineForm = selectedForm && selectedForm.type === "line";
 
       this.setState({
         borderSize: statusStore.borderSize,

@@ -6,7 +6,8 @@ const ACTIONS = {
   SET_WIDTH: "STATUS_SET_WIDTH",
   SET_HEIGHT: "STATUS_SET_HEIGHT",
   SET_BORDER_SIZE: "STATUS_SET_BORDER_SIZE",
-  SET_SELECTED_FORM: "STATUS_SET_SELECTED_FORM"
+  SET_SELECTED_FORM: "STATUS_SET_SELECTED_FORM",
+  SET_SELECTED_FONT_FAMILY: "STATUS_SET_SELECTED_FONT_FAMILY"
 };
 
 const StatusReducer = (
@@ -16,7 +17,23 @@ const StatusReducer = (
     isEditing: false,
     borderSize: 2,
     width: 20,
-    height: 20
+    height: 20,
+    fontFamily: "Arial",
+    availableFontFamilies: [
+      "Arial",
+      "Helvetica",
+      "Myriad Pro",
+      "Delicious",
+      "Verdana",
+      "Georgia",
+      "Courier",
+      "Comic Sans MS",
+      "Impact",
+      "Monaco",
+      "Optima",
+      "Hoefler Text",
+      "Plaster"
+    ]
   },
   action
 ) => {
@@ -80,6 +97,13 @@ const StatusReducer = (
       state = {
         ...state,
         selectedForm: action.payload
+      };
+      break;
+    }
+    case ACTIONS.SET_SELECTED_FONT_FAMILY: {
+      state = {
+        ...state,
+        fontFamily: action.payload
       };
       break;
     }
@@ -188,9 +212,23 @@ export function setBorderSize(size) {
   };
 }
 
+/**
+ * Stores selected form.
+ *
+ * @export
+ * @param {Object} form
+ * @returns
+ */
 export function setSelectedForm(form) {
   return {
     type: ACTIONS.SET_SELECTED_FORM,
     payload: form
+  };
+}
+
+export function setFontFamily(fontFamily) {
+  return {
+    type: ACTIONS.SET_SELECTED_FONT_FAMILY,
+    payload: fontFamily
   };
 }

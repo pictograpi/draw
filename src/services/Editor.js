@@ -14,7 +14,8 @@ let canvas,
   borderColorRGBAString,
   width,
   height,
-  borderSize;
+  borderSize,
+  fontFamily;
 
 Store.subscribe(() => {
   const statusStore = Store.getState().status;
@@ -24,6 +25,7 @@ Store.subscribe(() => {
   width = statusStore.width;
   height = statusStore.height;
   borderSize = statusStore.borderSize;
+  fontFamily = statusStore.fontFamily;
 });
 
 /**
@@ -174,7 +176,8 @@ export function addText() {
   var text = new fabric.IText("New text", {
     left: 100,
     top: 100,
-    fill: fillColorRGBAString
+    fill: fillColorRGBAString,
+    fontFamily: fontFamily
   });
   canvas.add(text);
 }
@@ -207,29 +210,42 @@ export function updateForms() {
   const forms = getActiveForms();
 
   forms.forEach(form => {
-    if (form.type === "ellipse") {
-      form.set({
-        rx: Math.round(width / 2),
-        ry: Math.round(height / 2),
-        strokeWidth: borderSize,
-        scaleX: 1,
-        scaleY: 1
-      });
-    } else if (form.type === "line") {
-      form.set({
-        strokeWidth: borderSize,
-        scaleX: 1,
-        scaleY: 1,
-        width: Math.round(form.width * form.scaleX)
-      });
-    } else {
-      form.set({
-        width: width,
-        height: height,
-        strokeWidth: borderSize,
-        scaleX: 1,
-        scaleY: 1
-      });
+    switch (form.type) {
+      case "ellipse":
+        form.set({
+          rx: Math.round(width / 2),
+          ry: Math.round(height / 2),
+          strokeWidth: borderSize,
+          scaleX: 1,
+          scaleY: 1
+        });
+        break;
+      case "line":
+        form.set({
+          strokeWidth: borderSize,
+          scaleX: 1,
+          scaleY: 1,
+          width: Math.round(form.width * form.scaleX)
+        });
+        break;
+      case "i-text":
+        form.set({
+          width: width,
+          height: height,
+          strokeWidth: borderSize,
+          scaleX: 1,
+          scaleY: 1,
+          fontFamily: fontFamily
+        });
+      default:
+        form.set({
+          width: width,
+          height: height,
+          strokeWidth: borderSize,
+          scaleX: 1,
+          scaleY: 1
+        });
+        break;
     }
   });
 

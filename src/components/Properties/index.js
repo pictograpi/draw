@@ -8,6 +8,7 @@ import {
 import Width from "../Width";
 import Height from "../Height";
 import Border from "../Border";
+import FontFamily from "../FontFamily";
 
 export default class Properties extends Component {
   constructor(props) {
@@ -70,6 +71,9 @@ export default class Properties extends Component {
         </div>
         <div className="pd-properties--field">
           <Border />
+        </div>
+        <div className="pd-properties--field">
+          <FontFamily />
         </div>
         <div
           className="pd-properties--button button is-small is-primary"
