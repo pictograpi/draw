@@ -217,7 +217,10 @@ export function updateForms() {
       });
     } else if (form.type === "line") {
       form.set({
-        strokeWidth: borderSize
+        strokeWidth: borderSize,
+        scaleX: 1,
+        scaleY: 1,
+        width: Math.round(form.width * form.scaleX)
       });
     } else {
       form.set({
