@@ -10,6 +10,8 @@ import Height from "../Height";
 import Border from "../Border";
 import FontFamily from "../FontFamily";
 import Clone from "../Clone";
+import BringToFront from "../BringToFront";
+import BringToBack from "../BringToBack";
 
 export default class Properties extends Component {
   constructor(props) {
@@ -75,6 +77,8 @@ export default class Properties extends Component {
           Update
         </div>
         <Clone />
+        <BringToFront />
+        <BringToBack />
         <div
           className="pd-properties--button button is-small is-danger"
           disabled={!this.state.isEditing || !this.state.isFormSelected}

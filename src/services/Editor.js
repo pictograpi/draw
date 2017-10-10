@@ -296,3 +296,27 @@ export function cloneSelectedForm() {
     canvas.requestRenderAll();
   });
 }
+
+/**
+ * Brings active object to front.
+ *
+ * @export
+ */
+export function bringToFront() {
+  var activeObject = canvas.getActiveObject();
+
+  canvas.bringForward(activeObject);
+  canvas.requestRenderAll();
+}
+
+/**
+ * Brings active object to back.
+ *
+ * @export
+ */
+export function bringToBack() {
+  var activeObject = canvas.getActiveObject();
+
+  canvas.sendBackwards(activeObject);
+  canvas.requestRenderAll();
+}

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
-import { cloneSelectedForm } from "../../services/Editor";
+import { bringToBack } from "../../services/Editor";
 
-export default class Clone extends Component {
+export default class BringToBack extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isEditing: false,
       isFormSelected: false
@@ -12,12 +13,12 @@ export default class Clone extends Component {
   }
 
   /**
-   * Clones selected forms.
+   * Moves selected forms forward.
    *
-   * @memberof Properties
+   * @memberof BringToBack
    */
-  handleCloneClick() {
-    cloneSelectedForm();
+  handleBringToBackClick() {
+    bringToBack();
   }
 
   componentWillMount() {
@@ -37,10 +38,10 @@ export default class Clone extends Component {
       <div
         className="pd-properties--button button is-small"
         disabled={!this.state.isEditing || !this.state.isFormSelected}
-        onClick={event => this.handleCloneClick()}
+        onClick={event => this.handleBringToBackClick()}
       >
         <span className="icon is-small">
-          <i className="fa fa-clone" />
+          <i className="fa fa-sort-amount-asc" />
         </span>
       </div>
     );
