@@ -7,7 +7,7 @@ export default class FontFamily extends Component {
     super(props);
     this.state = {
       isDisabled: true,
-      fontFamilies: []
+      fontFamilies: Store.getState().status.availableFontFamilies
     };
   }
 
@@ -32,7 +32,7 @@ export default class FontFamily extends Component {
 
   render() {
     const fontsDOM = this.state.fontFamilies.map((fontFamily, index) =>
-      <option value={fontFamily}>
+      <option key={index} value={fontFamily}>
         {fontFamily}
       </option>
     );
