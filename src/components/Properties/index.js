@@ -9,6 +9,7 @@ import Width from "../Width";
 import Height from "../Height";
 import Border from "../Border";
 import FontFamily from "../FontFamily";
+import Clone from "../Clone";
 
 export default class Properties extends Component {
   constructor(props) {
@@ -34,15 +35,6 @@ export default class Properties extends Component {
    */
   handleRemoveClick() {
     removeSelectedForms();
-  }
-
-  /**
-   * Clones selected forms.
-   *
-   * @memberof Properties
-   */
-  handleCloneClick() {
-    cloneSelectedForm();
   }
 
   componentWillMount() {
@@ -82,15 +74,7 @@ export default class Properties extends Component {
         >
           Update
         </div>
-        <div
-          className="pd-properties--button button is-small"
-          disabled={!this.state.isEditing || !this.state.isFormSelected}
-          onClick={event => this.handleCloneClick()}
-        >
-          <span className="icon is-small">
-            <i className="fa fa-clone" />
-          </span>
-        </div>
+        <Clone />
         <div
           className="pd-properties--button button is-small is-danger"
           disabled={!this.state.isEditing || !this.state.isFormSelected}
