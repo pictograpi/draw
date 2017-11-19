@@ -201,6 +201,12 @@ export function addTriangle() {
   canvas.add(triangle);
 }
 
+export function addImage(url) {
+  fabric.Image.fromURL(url, image => {
+    canvas.add(image);
+  });
+}
+
 /**
  * Sets new properties in all selected forms.
  *

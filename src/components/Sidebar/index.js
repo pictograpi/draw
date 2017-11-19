@@ -9,7 +9,11 @@ import {
   addText,
   addTriangle
 } from "../../services/Editor";
-import { setBorderColor, setFillColor } from "../../stores/Status";
+import {
+  setBorderColor,
+  setFillColor,
+  setIsSearchVisible
+} from "../../stores/Status";
 import { ChromePicker } from "react-color";
 
 export default class Sidebar extends Component {
@@ -168,6 +172,13 @@ export default class Sidebar extends Component {
     });
   }
 
+  /**
+   * Handles search click and toggles search status.
+   */
+  handleSearchClick() {
+    Store.dispatch(setIsSearchVisible(!this.state.isSearchVisible));
+  }
+
   componentWillMount() {
     Store.subscribe(() => {
       const status = Store.getState().status;
@@ -178,7 +189,8 @@ export default class Sidebar extends Component {
         fillColor: (status.fillColor || {}).rgb,
         borderColor: (status.borderColor || {}).rgb,
         fillColorRGBAString: status.fillColorRGBAString,
-        borderColorRGBAString: status.borderColorRGBAString
+        borderColorRGBAString: status.borderColorRGBAString,
+        isSearchVisible: status.isSearchVisible
       });
     });
   }
@@ -273,6 +285,7 @@ export default class Sidebar extends Component {
           <a
             className="pd-sidebar--button button"
             disabled={!this.state.isEditing}
+            onClick={event => this.handleSearchClick(event)}
           >
             <span className="icon">
               <i className="fa fa-image" />

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Store from "../../stores/Store";
 import Properties from "../../components/Properties";
+import Search from "../../components/Search";
 
 export default class Home extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class Home extends Component {
           className={`container is-fluid pd-home--editor-wrapper ${!this.state
             .isEditing && "pd-home--editor-wrapper__hidden"}`}
         >
+          <Search />
           <canvas className="pd-home--editor" id="editor" />
         </div>
       </div>

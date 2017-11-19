@@ -7,7 +7,8 @@ const ACTIONS = {
   SET_HEIGHT: "STATUS_SET_HEIGHT",
   SET_BORDER_SIZE: "STATUS_SET_BORDER_SIZE",
   SET_SELECTED_FORM: "STATUS_SET_SELECTED_FORM",
-  SET_SELECTED_FONT_FAMILY: "STATUS_SET_SELECTED_FONT_FAMILY"
+  SET_SELECTED_FONT_FAMILY: "STATUS_SET_SELECTED_FONT_FAMILY",
+  SET_IS_SEARCH_VISIBLE: "STATUS_SET_IS_SEARCH_VISIBLE"
 };
 
 const StatusReducer = (
@@ -15,6 +16,7 @@ const StatusReducer = (
     fillColorRGBAString: "rgba(56,149,155,1)",
     borderColorRGBAString: "rgba(0,0,0,1)",
     isEditing: false,
+    isSearchVisible: false,
     borderSize: 2,
     width: 20,
     height: 20,
@@ -104,6 +106,13 @@ const StatusReducer = (
       state = {
         ...state,
         fontFamily: action.payload
+      };
+      break;
+    }
+    case ACTIONS.SET_IS_SEARCH_VISIBLE: {
+      state = {
+        ...state,
+        isSearchVisible: action.payload
       };
       break;
     }
@@ -230,5 +239,12 @@ export function setFontFamily(fontFamily) {
   return {
     type: ACTIONS.SET_SELECTED_FONT_FAMILY,
     payload: fontFamily
+  };
+}
+
+export function setIsSearchVisible(status) {
+  return {
+    type: ACTIONS.SET_IS_SEARCH_VISIBLE,
+    payload: status
   };
 }
