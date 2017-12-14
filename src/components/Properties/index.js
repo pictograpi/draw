@@ -17,7 +17,8 @@ export default class Properties extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false
+      isEditing: false,
+      isFormSelected: false,
     };
   }
 
@@ -40,13 +41,13 @@ export default class Properties extends Component {
   }
 
   componentWillMount() {
+    const statusStore = Store.getState().status;
     Store.subscribe(() => {
-      const statusStore = Store.getState().status;
-      const selectedForm = statusStore.selectedForm || undefined;
+      const isFormSelected = !!statusStore.selectedForm;
 
       this.setState({
         isEditing: statusStore.isEditing,
-        isFormSelected: selectedForm !== undefined
+        isFormSelected
       });
     });
   }
